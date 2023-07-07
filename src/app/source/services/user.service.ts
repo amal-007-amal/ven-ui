@@ -43,6 +43,6 @@ export class UserService {
    */
 
   editUser(payload:any):Observable<any>{
-    return this.http.post<any>(this.baseUrl.serverUrl + this.baseUrl.editUserData,payload,this.httpOptions)
+    return this.http.put<any>(this.baseUrl.serverUrl + this.baseUrl.editUserData,payload,this.httpOptions)
   }
 }

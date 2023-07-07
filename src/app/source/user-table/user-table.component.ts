@@ -40,39 +40,13 @@ export class UserTableComponent implements OnInit {
       this.ListUser()
   }
 
-      /**
-     * Edit the user data
-     */
-
-      EditUser(payload:any):void{
-
-        //start the loader
-    
-        //service call
-        this.dataService.editUser(payload).subscribe(
-          {
-            next:(response)=>{
-    
-              if(response=='SUCCESS'){
-              //log the response and check 
-              //if success call the list user function
-              console.log(response)
-
-              //stop the loader
-              }
-            },
-            error: (message: any) => {
-              console.log("error message ", message.error)
-              //stop the loder
-            }
-          }
-        )
-  
-      }
-
-
       openAddEditEmpForm() {
-        const dialogRef = this.dialog.open(UserFormComponent);
+        const dialogRef = this.dialog.open(UserFormComponent,{
+          maxWidth: '100vw',
+          maxHeight: '100vh',
+          height: '100%',
+          width: '100%',
+          panelClass: 'full-screen-modal'});
         dialogRef.afterClosed().subscribe({
           next: (val) => {
             if (val) {
@@ -97,23 +71,16 @@ export class UserTableComponent implements OnInit {
 
   ListUser(): void {
 
-    //start the loader
-    let data:UserData[]=[
-      {id:101,name:'amal',dob:'08/21/1998',email:'amalsankarps0@gmail.com',gender:'male',mobile_no:9656214124}
-    ]
-    this.dataSource = new MatTableDataSource(data);
-    this.dataSource.sort = this.sort
-    this.dataSource.paginator = this.paginator
     //service call
     this.dataService.getUsers().subscribe(
       {
         next: (response) => {
-
-          if (response == 'SUCCESS') {
+          console.log("response",response)
+          if (response.message == 'SUCCESS') {
             //log the response and check 
             //if success parse the data into the model
             console.log(response)
-            this.dataSource = new MatTableDataSource(response);
+            this.dataSource = new MatTableDataSource(response.data);
             this.dataSource.sort = this.sort
             this.dataSource.paginator = this.paginator
 

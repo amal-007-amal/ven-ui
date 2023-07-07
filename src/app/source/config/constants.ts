@@ -9,7 +9,7 @@ export class Constant{
     public readonly serverUrl:string = 'http://localhost:5000';
 
     //endpoint names for user handlers
-    public readonly postUserData:string = '/vendata/newUser';
-    public readonly getUserData:string = '/vendata/usersDetails';
-    public readonly editUserData:string = '/vendata/editUser';
+    public readonly postUserData:string = '/api/v1/createUser';
+    public readonly getUserData:string = '/api/v1/users';
+    public readonly editUserData:string = '/api/v1/updateUser';
 }

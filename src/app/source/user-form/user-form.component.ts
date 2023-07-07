@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UserData } from '../models/ContactData';
 import { UserService } from '../services/user.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserTableComponent } from '../user-table/user-table.component';
 
@@ -28,11 +28,12 @@ export class UserFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.userForm = this.fb.group({
+      id:0,
       name: '',
-      email: '',
+      email: ['', [Validators.required, Validators.email]],
       dob: '',
       gender: '',
-      mobile:''
+      mobile_no:''
     })
   }
 
@@ -52,13 +53,16 @@ export class UserFormComponent implements OnInit {
     console.log("form ",this.userForm)
     //start the loader
     if(this.userForm.valid){
+      console.log(this.userForm.value)
       if(this.data){
+        console.log(this.data)
+        console.log(this.userForm.value.name)
         //service call
-        this.dataService.creatUser(this.userForm).subscribe(
+        this.dataService.editUser(this.userForm.value).subscribe(
           {
             next: (response) => {
-
-              if (response == 'SUCCESS') {
+              console.log("response ",response)
+              if (response.message == 'SUCCESS') {
                 //log the response and check 
                 //if success call the listUser
                 console.log(response)
@@ -74,11 +78,11 @@ export class UserFormComponent implements OnInit {
         )
       }else{
         //service call
-        this.dataService.editUser(this.userForm.value).subscribe(
+        this.dataService.creatUser(this.userForm.value).subscribe(
           {
             next: (response) => {
 
-              if (response == 'SUCCESS') {
+              if (response.message == 'SUCCESS') {
                 //log the response and check 
                 //if success call the list user function
                 console.log(response)
